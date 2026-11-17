@@ -96,9 +96,19 @@ public class ConflictGraph
     private ArrayList<CourseOffering> flattenToSingleArrayList(ArrayList<ArrayList<CourseOffering>> offerings)
     {
         ArrayList<CourseOffering> flattenedOfferings = new ArrayList<>();
-        for (ArrayList<CourseOffering> i : offerings)
-            for (CourseOffering offering : i)
-                flattenedOfferings.add(offering);
+        
+        // Won't be using a nested for-each loop for my ArrayList, perhaps the Iterator doesn't work as intended
+//        for (ArrayList<CourseOffering> i : offerings)
+//            for (CourseOffering offering : i)
+//                flattenedOfferings.add(offering);
+
+        for (int i = 0; i < offerings.size(); i++)
+        {
+            for (int j = 0; j < offerings.get(i).size(); j++)
+            {
+                flattenedOfferings.add(offerings.get(i).get(j));
+            }
+        }
         return flattenedOfferings;
     }
     /**

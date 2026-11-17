@@ -3,6 +3,7 @@ package main;
 import algo.ConflictGraph;
 import algo.DalengAlgo;
 import algo.PasswordHashing;
+import algo.Recommendation;
 import dao.AcademicTermDAOImpl;
 import dao.CourseDAOImpl;
 import dao.CourseOfferingDAOImpl;
@@ -43,16 +44,47 @@ import model.TimeSlot;
 public class Main
 {
     public static void main(String[] args) 
-    {
-        ArrayList<Course> selectedCourses = new ArrayList<>();
-        CourseDAO dao = new CourseDAOImpl();
+    {   
+        long avgTime = 0;
+        int SAMPLESIZE = 100;
+        long total = 0;
         
-        selectedCourses.add(dao.getCourseById(1));
-        selectedCourses.add(dao.getCourseById(2));
-        selectedCourses.add(dao.getCourseById(3));
-        
-        DalengAlgo algo = new DalengAlgo(selectedCourses);
-        ConflictGraph graph = algo.conflictGraph;
-        System.out.println(graph.getConflictingOfferings().size());
+        for (int i = 0; i < SAMPLESIZE; i++)
+        {
+            long before = System.currentTimeMillis();
+
+            CourseDAO dao = new CourseDAOImpl();
+
+            ArrayList<Course> selectedCourses = new ArrayList<>();
+            selectedCourses.add(dao.getCourseById(1));
+            selectedCourses.add(dao.getCourseById(2));
+            selectedCourses.add(dao.getCourseById(3));
+            selectedCourses.add(dao.getCourseById(4));
+
+            DalengAlgo algo = new DalengAlgo(selectedCourses);
+            Recommendation recommendation = algo.getRecommendation();
+
+            long after = System.currentTimeMillis();
+            avgTime += after - before;
+            total += after - before;
+        }
+        avgTime /= SAMPLESIZE;
+        System.out.println("Average time: " + avgTime / 1000.0 + "s");
+        System.out.println("Total time: " + total / 1000.0 + "s");
+//        ArrayList<Course> selectedCourses = new ArrayList<>();
+//        CourseDAO dao = new CourseDAOImpl();
+//
+//        selectedCourses.add(dao.getCourseById(1));
+//        selectedCourses.add(dao.getCourseById(2));
+//        selectedCourses.add(dao.getCourseById(3));
+//        selectedCourses.add(dao.getCourseById(4));
+//
+//        DalengAlgo algo = new DalengAlgo(selectedCourses);
+//        Recommendation recommendation = algo.getRecommendation();
+//        
+//        for (int i = 0; i < recommendation.getSelectedOfferings().size(); i++)
+//        {
+//            System.out.println(recommendation.getSelectedOfferings().get(i).getCourseId() + " - " + recommendation.getSelectedOfferings().get(i).getOfferingId());
+//        }
     }
 }

@@ -56,7 +56,7 @@ public class TimeSlotDAOImpl implements TimeSlotDAO
         try (Connection con = DBConnection.getConnection(); PreparedStatement ps = con.prepareStatement(selectQuery))
         {
             ResultSet rs = ps.executeQuery();
-            if (rs.next())
+            while (rs.next())
                 timeSlots.add(new TimeSlot(rs.getInt("time_slot_id"), rs.getObject("start_time", LocalTime.class), rs.getObject("end_time", LocalTime.class)));
         }
         catch (SQLException ex)

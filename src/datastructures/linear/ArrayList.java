@@ -11,13 +11,13 @@ public class ArrayList<T> implements Iterable<T>
 {
     private int size;
     private int capacity;
-    private int iteratorCurrentIndex = 0;
     private final int growingFactor = 2;
     private static final int DEFAULTSIZE = 100;
     private T[] arr;
     
     private class ArrayListIterator implements Iterator<T>
     {
+        private int iteratorCurrentIndex = 0;
         @Override
         public boolean hasNext() 
         {
